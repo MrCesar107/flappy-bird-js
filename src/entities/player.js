@@ -8,11 +8,14 @@ export default class Player {
     this.height = 64;
     this.gravity = 0.5;
     this.friction = 0.98;
+    this.gameOver = false;
   }
 
   update(ctx) {
-    if (this.y + this.height > canvas.height) {
+    if (this.y + this.height >= canvas.height) {
       this.dy = 0;
+      this.y = canvas.height - this.height;
+      this.gameOver = true;
     } else {
       this.dy += this.gravity;
     }
@@ -26,5 +29,9 @@ export default class Player {
     ctx.fillStyle = this.color;
     ctx.fillRect(this.x, this.y, 64, 64);
     ctx.closePath();
+  }
+
+  jump() {
+    this.dy = -10 * this.friction;
   }
 }

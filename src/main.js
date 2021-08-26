@@ -11,6 +11,10 @@ addEventListener("resize", () => {
   resizeCanvas();
 });
 
+addEventListener("click", (event) => {
+  player.jump();
+});
+
 function resizeCanvas() {
   if (innerWidth < 500) {
     canvas.width = innerWidth;
