@@ -1,3 +1,4 @@
+import { randomInRange } from "./utils.js";
 import Player from "./entities/player.js";
 import Pipe from "./entities/pipe.js";
 
@@ -70,7 +71,7 @@ function generatePipes() {
 }
 
 function calculatePipesHeight() {
-  const h1 = Math.floor(Math.random() * (canvas.height - 200));
+  const h1 = Math.floor(randomInRange(100, canvas.height - 300));
   const h2 = canvas.height - h1 - 200;
 
   return {
