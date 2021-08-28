@@ -45,7 +45,7 @@ function init() {
   pipes = [];
   score = 0;
 
-  pipesInterval = setInterval(generatePipes, 2000);
+  pipesInterval = setInterval(generatePipes, 2500);
 
   animate();
 }
