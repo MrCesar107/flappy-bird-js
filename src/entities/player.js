@@ -8,14 +8,14 @@ export default class Player {
     this.height = 64;
     this.gravity = 0.5;
     this.friction = 0.98;
-    this.gameOver = false;
+    this.isOver = false;
   }
 
   update(ctx) {
     if (this.y + this.height >= canvas.height) {
       this.dy = 0;
       this.y = canvas.height - this.height;
-      this.gameOver = true;
+      this.isOver = true;
     } else {
       this.dy += this.gravity;
     }
@@ -33,5 +33,14 @@ export default class Player {
 
   jump() {
     this.dy = -10 * this.friction;
+  }
+
+  isColliding(object) {
+    return (
+      this.x < object.x + object.width &&
+      this.x + this.width > object.x &&
+      this.y < object.y + object.height &&
+      this.y + this.height > object.y
+    );
   }
 }

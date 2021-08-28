@@ -8,16 +8,11 @@ resizeCanvas();
 
 let player;
 console.log(canvas.height);
-const pipe = new Pipe(canvas.width / 2 - 40, 0, 80, 350, "green");
-const pipe2 = new Pipe(
-  canvas.width / 2 - 40,
-  canvas.height - 394,
-  80,
-  394,
-  "green"
-);
 
 let pipes;
+let animationId;
+let isOver = false;
+var pipesInterval;
 
 addEventListener("resize", () => {
   resizeCanvas();
@@ -47,7 +42,7 @@ function init() {
   player = new Player(canvas.width / 2 - 32, canvas.height / 2 - 32, 2, "red");
   pipes = [];
 
-  setInterval(generatePipes, 2000);
+  pipesInterval = setInterval(generatePipes, 2000);
 
   animate();
 }
@@ -85,15 +80,26 @@ function calculatePipesHeight() {
 }
 
 function animate() {
-  requestAnimationFrame(animate);
+  animationId = requestAnimationFrame(animate);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  player.update(ctx);
+
   pipes.forEach((pipesPair) => {
     pipesPair.forEach((pipe) => {
       pipe.update(ctx);
+
+      if (player.isOver || player.isColliding(pipe)) {
+        gameOver();
+      }
     });
   });
+}
 
-  player.update(ctx);
+function gameOver() {
+  cancelAnimationFrame(animationId);
+  clearInterval(pipesInterval);
+  isOver = true;
 }
 
 init();
