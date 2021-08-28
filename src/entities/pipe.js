@@ -5,6 +5,7 @@ export default class Pipe {
     this.width = width;
     this.height = height;
     this.color = color;
+    this.isScored = false;
   }
 
   update(ctx) {

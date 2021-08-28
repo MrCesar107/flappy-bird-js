@@ -3,6 +3,7 @@ import Pipe from "./entities/pipe.js";
 
 const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
+const scoreElement = document.querySelector("#score");
 
 resizeCanvas();
 
@@ -11,7 +12,7 @@ console.log(canvas.height);
 
 let pipes;
 let animationId;
-let isOver = false;
+let score;
 var pipesInterval;
 
 addEventListener("resize", () => {
@@ -41,6 +42,7 @@ function resizeCanvas() {
 function init() {
   player = new Player(canvas.width / 2 - 32, canvas.height / 2 - 32, 2, "red");
   pipes = [];
+  score = 0;
 
   pipesInterval = setInterval(generatePipes, 2000);
 
@@ -50,7 +52,7 @@ function init() {
 function generatePipes() {
   const pipesHeight = calculatePipesHeight();
   pipes.push([
-    new Pipe(canvas.width + 200, 0, 80, pipesHeight.h1, "green"),
+    new Pipe(canvas.width + 200, -500, 80, pipesHeight.h1 + 500, "green"),
     new Pipe(
       canvas.width + 200,
       canvas.height - pipesHeight.h2,
@@ -65,8 +67,6 @@ function generatePipes() {
       pipes.splice(idx, 1);
     }
   });
-
-  console.log(pipes.length);
 }
 
 function calculatePipesHeight() {
@@ -93,13 +93,22 @@ function animate() {
         gameOver();
       }
     });
+
+    updateScore(pipesPair[0]);
   });
 }
 
 function gameOver() {
   cancelAnimationFrame(animationId);
   clearInterval(pipesInterval);
-  isOver = true;
+}
+
+function updateScore(pipe) {
+  if (pipe.x < player.x && !pipe.isScored) {
+    score++;
+    pipe.isScored = true;
+    scoreElement.innerHTML = score;
+  }
 }
 
 init();

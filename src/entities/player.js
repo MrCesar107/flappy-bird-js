@@ -32,7 +32,9 @@ export default class Player {
   }
 
   jump() {
-    this.dy = -10 * this.friction;
+    if (this.y > -200) {
+      this.dy = -10 * this.friction;
+    }
   }
 
   isColliding(object) {
