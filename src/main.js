@@ -13,14 +13,7 @@ resizeCanvas();
 ctx.fillStyle = "#299bd9";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-let player = new Player(
-  canvas.width / 2 - 32,
-  canvas.height / 2 - 32,
-  2,
-  "red"
-);
-console.log(canvas.height);
-
+let player;
 let pipes;
 let animationId;
 let score;
@@ -40,8 +33,6 @@ startGameButton.addEventListener("click", startGame);
 addEventListener("keydown", (event) => {
   if (event.code == "Space" && gameStarted) {
     player.jump();
-  } else if (event.code == "Space" && !gameStarted) {
-    startGame();
   }
 });
 
@@ -60,6 +51,7 @@ function init() {
   pipes = [];
   score = 0;
   scoreElement.innerHTML = score;
+  scoreElement.classList.remove("hidden");
 
   pipesInterval = setInterval(generatePipes, 2500);
   animate();
@@ -138,6 +130,7 @@ function disappearUI() {
 }
 
 function appearGameOverUI() {
+  scoreElement.classList.add("hidden");
   titleElement.innerHTML = "Game Over";
   titleElement.classList.remove("hidden");
   startGameButton.classList.remove("hidden");

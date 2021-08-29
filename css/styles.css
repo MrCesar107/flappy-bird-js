@@ -18,7 +18,7 @@ html, body {
   border: 1px solid #000;
 }
 
-#titleEl {
+#titleEl, #scoreEl {
   font-family: 'Press Start 2P', curive;
 }
 
