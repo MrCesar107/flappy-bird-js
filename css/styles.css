@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+html, body {
+  overflow: hidden;
+  margin: 0px;
+}
+
+.no-select {
+  -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+
+#canvas{
+  border: 1px solid #000;
+}
+
+#titleEl {
+  font-family: 'Press Start 2P', curive;
+}
+
+#modalEl {
+  border-radius: 10px;
+  height: 10rem;
+  max-height: 10rem;
+}
+
+#startGameBtn {
+  width: 60px;
+  height: 60px;
+  border: 2px solid #000;
+  border-radius: 10px;
+  transition: width 0.2s, height 0.2s, font-size 0.2s, line-height 0.2s;
+}
+
+#startGameBtn:hover {
+  width: 70px;
+  height: 70px;
+  font-size: 3rem;
+  line-height: 3rem;
+}

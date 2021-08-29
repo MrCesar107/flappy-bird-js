@@ -4,29 +4,44 @@ import Pipe from "./entities/pipe.js";
 
 const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
-const scoreElement = document.querySelector("#score");
+const scoreElement = document.querySelector("#scoreEl");
+const titleElement = document.querySelector("#titleEl");
+const modalElement = document.querySelector("#modalEl");
+const startGameButton = document.querySelector("#startGameBtn");
 
 resizeCanvas();
+ctx.fillStyle = "#299bd9";
+ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-let player;
+let player = new Player(
+  canvas.width / 2 - 32,
+  canvas.height / 2 - 32,
+  2,
+  "red"
+);
 console.log(canvas.height);
 
 let pipes;
 let animationId;
 let score;
+let gameStarted = false;
 var pipesInterval;
 
 addEventListener("resize", () => {
   resizeCanvas();
 });
 
-addEventListener("click", (event) => {
+addEventListener("click", () => {
   player.jump();
 });
 
+startGameButton.addEventListener("click", startGame);
+
 addEventListener("keydown", (event) => {
-  if (event.code == "Space") {
+  if (event.code == "Space" && gameStarted) {
     player.jump();
+  } else if (event.code == "Space" && !gameStarted) {
+    startGame();
   }
 });
 
@@ -44,9 +59,9 @@ function init() {
   player = new Player(canvas.width / 2 - 32, canvas.height / 2 - 32, 2, "red");
   pipes = [];
   score = 0;
+  scoreElement.innerHTML = score;
 
   pipesInterval = setInterval(generatePipes, 2500);
-
   animate();
 }
 
@@ -83,6 +98,8 @@ function calculatePipesHeight() {
 function animate() {
   animationId = requestAnimationFrame(animate);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "#299bd9";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   player.update(ctx);
 
@@ -102,6 +119,8 @@ function animate() {
 function gameOver() {
   cancelAnimationFrame(animationId);
   clearInterval(pipesInterval);
+  gameStarted = false;
+  appearGameOverUI();
 }
 
 function updateScore(pipe) {
@@ -112,4 +131,21 @@ function updateScore(pipe) {
   }
 }
 
-init();
+function disappearUI() {
+  titleElement.classList.add("hidden");
+  startGameButton.classList.add("hidden");
+  modalElement.classList.add("hidden");
+}
+
+function appearGameOverUI() {
+  titleElement.innerHTML = "Game Over";
+  titleElement.classList.remove("hidden");
+  startGameButton.classList.remove("hidden");
+  modalElement.classList.remove("hidden");
+}
+
+function startGame() {
+  gameStarted = true;
+  disappearUI();
+  init();
+}
