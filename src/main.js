@@ -118,7 +118,7 @@ function gameOver() {
   gameStarted = false;
   updateScoreLabel();
   updateHighScoreLabel();
-  selectTrophy();
+  selectTrophyByScore();
   appearGameOverUI();
 }
 
@@ -156,24 +156,36 @@ function appearGameOverUI() {
   modalElement.classList.remove("hidden");
 }
 
-function selectTrophy() {
+function selectTrophyByScore() {
   if (score >= 10 && score < 30) {
-    trophyElement.classList.remove("no-trophy");
-    trophyElement.classList.remove("gold-trophy");
-    trophyElement.classList.add("silver-trophy");
+    showSilverTrophy();
   }
 
   if (score >= 30) {
-    trophyElement.classList.remove("no-trophy");
-    trophyElement.classList.remove("silver-trophy");
-    trophyElement.classList.add("gold-trophy");
+    showGoldTrophy();
   }
 
   if (score >= 0 && score < 10) {
-    trophyElement.classList.remove("gold-trophy");
-    trophyElement.classList.remove("silver-trophy");
-    trophyElement.classList.add("no-trophy");
+    showNoTrophy();
   }
+}
+
+function showSilverTrophy() {
+  trophyElement.classList.remove("no-trophy");
+  trophyElement.classList.remove("gold-trophy");
+  trophyElement.classList.add("silver-trophy");
+}
+
+function showGoldTrophy() {
+  trophyElement.classList.remove("no-trophy");
+  trophyElement.classList.remove("silver-trophy");
+  trophyElement.classList.add("gold-trophy");
+}
+
+function showNoTrophy() {
+  trophyElement.classList.remove("gold-trophy");
+  trophyElement.classList.remove("silver-trophy");
+  trophyElement.classList.add("no-trophy");
 }
 
 function startGame() {
