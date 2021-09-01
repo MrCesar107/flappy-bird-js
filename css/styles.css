@@ -19,16 +19,18 @@ html, body {
 }
 
 #titleEl, #scoreEl {
-  font-family: 'Press Start 2P', curive;
+  font-family: 'Press Start 2P', cursive;
 }
 
 #modalEl {
   border-radius: 10px;
-  height: 10rem;
-  max-height: 10rem;
+  height: 14rem;
+  max-height: 20rem;
+  background-color: #ded895;
+  border: 2px solid #8F7D86;
 }
 
-#startGameBtn {
+#startGameBtn, #restartGameBtn {
   width: 60px;
   height: 60px;
   border: 2px solid #000;
@@ -42,3 +44,27 @@ html, body {
   font-size: 3rem;
   line-height: 3rem;
 }
+
+#scoreLabel, #highScoreLabel {
+  font-family: 'Press Start 2P', cursive;
+  color: #f26a0f;
+  letter-spacing: 0.1rem;
+}
+
+.trophy {
+  /*
+    gold: -445px -1047px
+    silver: -445px -960px
+    no-medal: 
+  */
+
+
+  width: 100px;
+  height: 100px;
+  border: 2px solid #ded895;
+  background: url('../assets/img/sprites.png') no-repeat;
+  background-size: 126vw;
+  background-position: -55px -1045px;
+}
+
+#scoreSection { max-width: 7rem; }
