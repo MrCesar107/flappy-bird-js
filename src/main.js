@@ -5,9 +5,12 @@ import Pipe from "./entities/pipe.js";
 const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
 const scoreElement = document.querySelector("#scoreEl");
+const scoreLabelElement = document.querySelector("#scoreLabel");
+const highScoreLabelElement = document.querySelector("#highScoreLabel");
 const titleElement = document.querySelector("#titleEl");
 const modalElement = document.querySelector("#modalEl");
 const startGameButton = document.querySelector("#startGameBtn");
+const trophyElement = document.querySelector("#trophyEl");
 
 resizeCanvas();
 ctx.fillStyle = "#299bd9";
@@ -17,6 +20,7 @@ let player;
 let pipes;
 let animationId;
 let score;
+let highScore = 0;
 let gameStarted = false;
 var pipesInterval;
 
@@ -112,6 +116,9 @@ function gameOver() {
   cancelAnimationFrame(animationId);
   clearInterval(pipesInterval);
   gameStarted = false;
+  updateScoreLabel();
+  updateHighScoreLabel();
+  selectTrophy();
   appearGameOverUI();
 }
 
@@ -121,6 +128,18 @@ function updateScore(pipe) {
     pipe.isScored = true;
     scoreElement.innerHTML = score;
   }
+}
+
+function updateScoreLabel() {
+  scoreLabelElement.innerHTML = score;
+}
+
+function updateHighScoreLabel() {
+  if (score > highScore) {
+    highScore = score;
+  }
+
+  highScoreLabelElement.innerHTML = highScore;
 }
 
 function disappearUI() {
@@ -135,6 +154,26 @@ function appearGameOverUI() {
   titleElement.classList.remove("hidden");
   startGameButton.classList.remove("hidden");
   modalElement.classList.remove("hidden");
+}
+
+function selectTrophy() {
+  if (score >= 10 && score < 30) {
+    trophyElement.classList.remove("no-trophy");
+    trophyElement.classList.remove("gold-trophy");
+    trophyElement.classList.add("silver-trophy");
+  }
+
+  if (score >= 30) {
+    trophyElement.classList.remove("no-trophy");
+    trophyElement.classList.remove("silver-trophy");
+    trophyElement.classList.add("gold-trophy");
+  }
+
+  if (score >= 0 && score < 10) {
+    trophyElement.classList.remove("gold-trophy");
+    trophyElement.classList.remove("silver-trophy");
+    trophyElement.classList.add("no-trophy");
+  }
 }
 
 function startGame() {
