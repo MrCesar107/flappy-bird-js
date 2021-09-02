@@ -1,11 +1,12 @@
 export default class Pipe {
-  constructor(x, y, width, height, color) {
+  constructor(x, y, width, height, direction, image) {
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
-    this.color = color;
+    this.direction = direction;
     this.isScored = false;
+    this.image = image;
   }
 
   update(ctx) {
@@ -16,8 +17,60 @@ export default class Pipe {
 
   draw(ctx) {
     ctx.beginPath();
-    ctx.fillStyle = this.color;
-    ctx.fillRect(this.x, this.y, this.width, this.height);
+    // ctx.fillStyle = this.color;
+    // ctx.fillRect(this.x, this.y, this.width, this.height);
+
+    if (this.direction === "up") {
+      ctx.drawImage(
+        this.image,
+        84,
+        323,
+        26,
+        12,
+        this.x - 10,
+        this.y,
+        this.width + 20,
+        50
+      );
+      ctx.drawImage(
+        this.image,
+        57,
+        324,
+        24,
+        50,
+        this.x,
+        this.y + 50,
+        this.width,
+        this.height
+      );
+    }
+
+    if (this.direction === "down") {
+      ctx.drawImage(
+        this.image,
+        57,
+        324,
+        24,
+        50,
+        this.x,
+        this.y,
+        this.width,
+        this.height - 50
+      );
+
+      ctx.drawImage(
+        this.image,
+        84,
+        323,
+        26,
+        12,
+        this.x - 10,
+        this.y + this.height - 50,
+        this.width + 20,
+        50
+      );
+    }
+
     ctx.closePath();
   }
 }

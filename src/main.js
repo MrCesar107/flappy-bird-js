@@ -1,9 +1,10 @@
-import { randomInRange } from "./utils.js";
+import { randomInRange, loadImage } from "./utils.js";
 import Player from "./entities/player.js";
 import Pipe from "./entities/pipe.js";
 
 const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
+const spriteSheet = await loadImage("../assets/img/sprites.png");
 const scoreElement = document.querySelector("#scoreEl");
 const scoreLabelElement = document.querySelector("#scoreLabel");
 const highScoreLabelElement = document.querySelector("#highScoreLabel");
@@ -64,13 +65,21 @@ function init() {
 function generatePipes() {
   const pipesHeight = calculatePipesHeight();
   pipes.push([
-    new Pipe(canvas.width + 200, -500, 80, pipesHeight.h1 + 500, "green"),
+    new Pipe(
+      canvas.width + 200,
+      -500,
+      80,
+      pipesHeight.h1 + 500,
+      "down",
+      spriteSheet
+    ),
     new Pipe(
       canvas.width + 200,
       canvas.height - pipesHeight.h2,
       80,
       pipesHeight.h2,
-      "green"
+      "up",
+      spriteSheet
     ),
   ]);
 
