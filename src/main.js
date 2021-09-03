@@ -4,7 +4,7 @@ import Pipe from "./entities/pipe.js";
 
 const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
-const spriteSheet = await loadImage(document.querySelector("#spritesImage").src);
+const spriteSheet = loadImage(document.querySelector("#spritesImage").src);
 const scoreElement = document.querySelector("#scoreEl");
 const scoreLabelElement = document.querySelector("#scoreLabel");
 const highScoreLabelElement = document.querySelector("#highScoreLabel");
