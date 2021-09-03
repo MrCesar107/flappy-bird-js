@@ -52,7 +52,7 @@ function resizeCanvas() {
 }
 
 function init() {
-  player = new Player(canvas.width / 2 - 32, canvas.height / 2 - 32, 2, "red");
+  player = new Player(canvas.width / 2 - 32, canvas.height / 2 - 32, 2, spriteSheet);
   pipes = [];
   score = 0;
   scoreElement.innerHTML = score;

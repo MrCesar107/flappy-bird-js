@@ -1,9 +1,9 @@
 export default class Player {
-  constructor(x, y, dy, color) {
+  constructor(x, y, dy, image) {
     this.x = x;
     this.y = y;
     this.dy = dy;
-    this.color = color;
+    this.image = image;
     this.width = 64;
     this.height = 64;
     this.gravity = 0.5;
@@ -26,8 +26,17 @@ export default class Player {
 
   draw(ctx) {
     ctx.beginPath();
-    ctx.fillStyle = this.color;
-    ctx.fillRect(this.x, this.y, 64, 64);
+    ctx.drawImage(
+      this.image,
+      115,
+      381,
+      17,
+      12,
+      this.x,
+      this.y,
+      this.width,
+      this.height
+    );
     ctx.closePath();
   }
 
