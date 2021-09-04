@@ -13,10 +13,6 @@ const modalElement = document.querySelector("#modalEl");
 const startGameButton = document.querySelector("#startGameBtn");
 const trophyElement = document.querySelector("#trophyEl");
 
-resizeCanvas();
-ctx.fillStyle = "#299bd9";
-ctx.fillRect(0, 0, canvas.width, canvas.height);
-
 let player;
 let pipes;
 let animationId;
@@ -25,6 +21,8 @@ let highScore = 0;
 let gameStarted = false;
 var pipesInterval;
 var playerAnimation;
+
+resizeCanvas();
 
 addEventListener("resize", () => {
   resizeCanvas();
@@ -50,6 +48,8 @@ function resizeCanvas() {
   }
 
   canvas.height = innerHeight;
+  clearCanvas();
+  restartGame();
 }
 
 function init() {
@@ -111,11 +111,15 @@ function calculatePipesHeight() {
   };
 }
 
-function animate() {
-  animationId = requestAnimationFrame(animate);
+function clearCanvas() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "#299bd9";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+function animate() {
+  animationId = requestAnimationFrame(animate);
+  clearCanvas();
 
   player.update(ctx);
 
@@ -130,17 +134,6 @@ function animate() {
 
     updateScore(pipesPair[0]);
   });
-}
-
-function gameOver() {
-  cancelAnimationFrame(animationId);
-  clearInterval(pipesInterval);
-  clearInterval(playerAnimation);
-  gameStarted = false;
-  updateScoreLabel();
-  updateHighScoreLabel();
-  selectTrophyByScore();
-  appearGameOverUI();
 }
 
 function updateScore(pipe) {
@@ -161,6 +154,17 @@ function updateHighScoreLabel() {
   }
 
   highScoreLabelElement.innerHTML = highScore;
+}
+
+function appearUI() {
+  titleElement.classList.remove("hidden");
+  titleElement.innerHTML = "Flappy Bird";
+  scoreElement.classList.add("hidden");
+  scoreLabelElement.innerHTML = "0";
+  highScoreLabelElement.innerHTML = "0";
+  startGameButton.classList.remove("hidden");
+  modalElement.classList.remove("hidden");
+  showNoTrophy();
 }
 
 function disappearUI() {
@@ -209,8 +213,33 @@ function showNoTrophy() {
   trophyElement.classList.add("no-trophy");
 }
 
+function deleteIntervals() {
+  cancelAnimationFrame(animationId);
+  clearInterval(pipesInterval);
+  clearInterval(playerAnimation);
+}
+
+function gameOver() {
+  deleteIntervals();
+  gameStarted = false;
+  updateScoreLabel();
+  updateHighScoreLabel();
+  selectTrophyByScore();
+  appearGameOverUI();
+}
+
 function startGame() {
   gameStarted = true;
   disappearUI();
   init();
+}
+
+function restartGame() {
+  gameStarted = false;
+  player = null;
+  pipes = null;
+  score = null;
+  highScore = null;
+  deleteIntervals();
+  appearUI();
 }
