@@ -9,6 +9,7 @@ export default class Player {
     this.gravity = 0.5;
     this.friction = 0.98;
     this.isOver = false;
+    this.currentFrame = 1;
   }
 
   update(ctx) {
@@ -25,19 +26,23 @@ export default class Player {
   }
 
   draw(ctx) {
+    const frameWidth = 17;
+    const frameHeight = 12;
+
     ctx.beginPath();
-    ctx.drawImage(
-      this.image,
-      115,
-      381,
-      17,
-      12,
-      this.x,
-      this.y,
-      this.width,
-      this.height
-    );
+    //ctx.clearRect(this.x, this.y, this.width, this.height);
+    this.selectFrame(ctx, this.currentFrame, frameWidth, frameHeight);
     ctx.closePath();
+  }
+
+  animate() {
+    const frames = 3;
+
+    this.currentFrame++;
+
+    if (this.currentFrame > frames) {
+      this.currentFrame = 1;
+    }
   }
 
   jump() {
@@ -52,6 +57,30 @@ export default class Player {
       this.x + this.width > object.x &&
       this.y < object.y + object.height &&
       this.y + this.height > object.y
+    );
+  }
+
+  selectFrame(ctx, frame, frameWidth, frameHeight) {
+    let positionFrameY;
+
+    if (frame === 1) {
+      positionFrameY = 381;
+    } else if (frame == 2) {
+      positionFrameY = 407;
+    } else if (frame == 3) {
+      positionFrameY = 433;
+    }
+
+    ctx.drawImage(
+      this.image,
+      115,
+      positionFrameY,
+      frameWidth,
+      frameHeight,
+      this.x,
+      this.y,
+      this.width,
+      this.height
     );
   }
 }

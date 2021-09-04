@@ -24,6 +24,7 @@ let score;
 let highScore = 0;
 let gameStarted = false;
 var pipesInterval;
+var playerAnimation;
 
 addEventListener("resize", () => {
   resizeCanvas();
@@ -52,13 +53,19 @@ function resizeCanvas() {
 }
 
 function init() {
-  player = new Player(canvas.width / 2 - 32, canvas.height / 2 - 32, 2, spriteSheet);
+  player = new Player(
+    canvas.width / 2 - 32,
+    canvas.height / 2 - 32,
+    2,
+    spriteSheet
+  );
   pipes = [];
   score = 0;
   scoreElement.innerHTML = score;
   scoreElement.classList.remove("hidden");
 
   pipesInterval = setInterval(generatePipes, 2500);
+  playerAnimation = setInterval(animationPlayer, 150);
   animate();
 }
 
@@ -88,6 +95,10 @@ function generatePipes() {
       pipes.splice(idx, 1);
     }
   });
+}
+
+function animationPlayer() {
+  player.animate();
 }
 
 function calculatePipesHeight() {
@@ -124,6 +135,7 @@ function animate() {
 function gameOver() {
   cancelAnimationFrame(animationId);
   clearInterval(pipesInterval);
+  clearInterval(playerAnimation);
   gameStarted = false;
   updateScoreLabel();
   updateHighScoreLabel();
