@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.7/tailwind.min.css" integrity="sha512-y6ZMKFUQrn+UUEVoqYe8ApScqbjuhjqzTuwUMEGMDuhS2niI8KA3vhH2LenreqJXQS+iIXVTRL2iaNfJbDNA1Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/styles.css">
@@ -15,23 +15,33 @@
       <div class="text-white fixed text-sm ml-2 mt-36 text-4xl select-none"><span class="hidden" id="scoreEl">0</span></div>
       <h1 id="titleEl" class="text-white text-center fixed text-4xl font-bold leading-none mt-36 no-select">Flappy Bird</h1>
       <div id="modalEl" class="fixed max-w-md w-80 mt-64 mx-4">
-        <div class="flex justify-center">
-          <div class="grid grid-flow-col auto-cols-max">
-            <div class="mt-9 space-y-6" id="scoreSection">
-              <p class="text-xs no-select font-bold label">Score: <span id="scoreLabel">0</span></p>
-              <p class="text-xs no-select font-bold label">High score: <span id="highScoreLabel">0</span></p>
-            </div>
+        <div id="dataModalEl">
+          <div class="flex justify-center">
             <div class="grid grid-flow-col auto-cols-max">
-              <div class="mt-5 ml-8" id="trophySection">
-                <div class="trophy no-trophy" id="trophyEl"></div>
+              <div class="mt-9 space-y-6" id="scoreSection">
+                <p class="text-xs no-select font-bold label">Score: <span id="scoreLabel">0</span></p>
+                <p class="text-xs no-select font-bold label">High score: <span id="highScoreLabel">0</span></p>
+              </div>
+              <div class="grid grid-flow-col auto-cols-max">
+                <div class="mt-5 ml-8" id="trophySection">
+                  <div class="trophy no-trophy" id="trophyEl"></div>
+                </div>
               </div>
             </div>
           </div>
+          <div class="mt-6 flex justify-center">
+            <button class="bg-white text-green-600 text-2xl self-center" id="startGameBtn">
+              <i class="fas fa-play"></i>
+            </button>
+          </div>
         </div>
-        <div class="mt-6 flex justify-center">
-          <button class="bg-white text-green-600 text-2xl self-center" id="startGameBtn">
-            <i class="fas fa-play"></i>
-          </button>
+        <div class="mt-4 hidden" id="restrictMessageEl">
+          <div class="flex justify-center items-center">
+            <p class="text-3xl text-center">Use landscape mode to play this game</p>
+          </div>
+          <div class="flex justify-center items-center mt-4">
+            <img src="assets/img/landscape.png" alt="landscape" width="50px" height="50px">
+          </div>
         </div>
       </div>
       <canvas id="canvas"></canvas>

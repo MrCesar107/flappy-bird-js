@@ -12,6 +12,8 @@ const titleElement = document.querySelector("#titleEl");
 const modalElement = document.querySelector("#modalEl");
 const startGameButton = document.querySelector("#startGameBtn");
 const trophyElement = document.querySelector("#trophyEl");
+const restrictMessageElement = document.querySelector("#restrictMessageEl");
+const dataModalElement = document.querySelector("#dataModalEl");
 
 let player;
 let pipes;
@@ -31,6 +33,14 @@ addEventListener("resize", () => {
 addEventListener("click", () => {
   player.jump();
 });
+
+addEventListener(
+  "touchmove",
+  (e) => {
+    e.preventDefault();
+  },
+  { passive: false }
+);
 
 startGameButton.addEventListener("click", startGame);
 
@@ -156,24 +166,41 @@ function updateHighScoreLabel() {
   highScoreLabelElement.innerHTML = highScore;
 }
 
+function appearNotPortraitUI() {
+  titleElement.classList.add("hidden");
+  modalElement.classList.remove("mt-64", "hidden");
+  modalElement.classList.add("mt-16");
+  restrictMessageElement.classList.remove("hidden");
+}
+
+function disappearNotPortraitUI() {
+  titleElement.classList.remove("hidden");
+  modalElement.classList.remove("mt-16");
+  modalElement.classList.add("mt-64");
+  restrictMessageElement.classList.add("hidden");
+  restrictMessageElement.classList.add("hidden");
+}
+
 function appearUI() {
   titleElement.classList.remove("hidden");
+  titleElement.classList.add("mt-36");
   titleElement.innerHTML = "Flappy Bird";
   scoreElement.classList.add("hidden");
+  dataModalElement.classList.remove("hidden");
   scoreLabelElement.innerHTML = "0";
   highScoreLabelElement.innerHTML = "0";
-  startGameButton.classList.remove("hidden");
   modalElement.classList.remove("hidden");
   showNoTrophy();
 }
 
 function disappearUI() {
   titleElement.classList.add("hidden");
-  startGameButton.classList.add("hidden");
   modalElement.classList.add("hidden");
+  dataModalElement.classList.add("hidden");
 }
 
 function appearGameOverUI() {
+  dataModalElement.classList.remove("hidden");
   scoreElement.classList.add("hidden");
   titleElement.innerHTML = "Game Over";
   titleElement.classList.remove("hidden");
@@ -241,5 +268,15 @@ function restartGame() {
   score = null;
   highScore = null;
   deleteIntervals();
-  appearUI();
+
+  if (canvas.width > canvas.height && canvas.width < 1024) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    disappearUI();
+    appearNotPortraitUI();
+  } else {
+    disappearNotPortraitUI();
+    appearUI();
+  }
 }
