@@ -30,17 +30,25 @@ addEventListener("resize", () => {
   resizeCanvas();
 });
 
-addEventListener("click", () => {
+addEventListener("touchstart", (event) => {
+  event.preventDefault();
   player.jump();
 });
 
-addEventListener(
-  "touchmove",
-  (e) => {
-    e.preventDefault();
-  },
-  { passive: false }
-);
+if (isMobileBrowser()) {
+  addEventListener(
+    "touchmove",
+    (e) => {
+      e.preventDefault();
+    },
+    { passive: false }
+  );
+} else {
+  addEventListener("click", (event) => {
+    event.preventDefault();
+    player.jump();
+  });
+}
 
 startGameButton.addEventListener("click", startGame);
 
@@ -49,6 +57,12 @@ addEventListener("keydown", (event) => {
     player.jump();
   }
 });
+
+function isMobileBrowser() {
+  const ua = navigator.userAgent;
+  const isMobile = /Mobile|iP(hone|od|ad)|Android/.test(ua);
+  return isMobile;
+}
 
 function resizeCanvas() {
   if (innerWidth < 500) {
@@ -133,11 +147,15 @@ function animate() {
 
   player.update(ctx);
 
+  if (player.isOver) {
+    gameOver();
+  }
+
   pipes.forEach((pipesPair) => {
     pipesPair.forEach((pipe) => {
       pipe.update(ctx);
 
-      if (player.isOver || player.isColliding(pipe)) {
+      if (player.isColliding(pipe)) {
         gameOver();
       }
     });
