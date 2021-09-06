@@ -21,10 +21,15 @@ let animationId;
 let score;
 let highScore = 0;
 let gameStarted = false;
+let backgroundOption;
+let drawBackgroundPositionX;
 var pipesInterval;
 var playerAnimation;
 
 resizeCanvas();
+ctx.beginPath();
+ctx.drawImage(spriteSheet, 0, 0, 144, 256, 0, 0, canvas.width, canvas.height);
+ctx.closePath();
 
 addEventListener("resize", () => {
   resizeCanvas();
@@ -137,8 +142,33 @@ function calculatePipesHeight() {
 
 function clearCanvas() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = "#299bd9";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  drawBackground(drawBackgroundPositionX);
+}
+
+function generateBackground() {
+  if (backgroundOption == 1) {
+    drawBackgroundPositionX = 0;
+  } else if (backgroundOption == 2) {
+    drawBackgroundPositionX = 146;
+  }
+
+  drawBackground();
+}
+
+function drawBackground() {
+  ctx.beginPath();
+  ctx.drawImage(
+    spriteSheet,
+    drawBackgroundPositionX,
+    0,
+    144,
+    256,
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+  ctx.closePath();
 }
 
 function animate() {
@@ -275,7 +305,11 @@ function gameOver() {
 
 function startGame() {
   gameStarted = true;
+  backgroundOption = randomInRange(1, 2);
+
   disappearUI();
+  clearCanvas();
+  generateBackground();
   init();
 }
 
