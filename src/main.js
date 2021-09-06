@@ -1,4 +1,4 @@
-import { randomInRange, loadImage } from "./utils.js";
+import { randomInRange, loadImage, loadSound } from "./utils.js";
 import Player from "./entities/player.js";
 import Pipe from "./entities/pipe.js";
 
@@ -14,6 +14,9 @@ const startGameButton = document.querySelector("#startGameBtn");
 const trophyElement = document.querySelector("#trophyEl");
 const restrictMessageElement = document.querySelector("#restrictMessageEl");
 const dataModalElement = document.querySelector("#dataModalEl");
+const pointSound = loadSound(document.querySelector("#pointSound").src);
+const wingSound = loadSound(document.querySelector("#wingSound").src);
+const hitSound = loadSound(document.querySelector("#hitSound").src);
 
 let player;
 let pipes;
@@ -38,6 +41,7 @@ addEventListener("resize", () => {
 addEventListener("touchstart", (event) => {
   event.preventDefault();
   player.jump();
+  playWingSound();
 });
 
 if (isMobileBrowser()) {
@@ -52,6 +56,7 @@ if (isMobileBrowser()) {
   addEventListener("click", (event) => {
     event.preventDefault();
     player.jump();
+    playWingSound();
   });
 }
 
@@ -60,6 +65,7 @@ startGameButton.addEventListener("click", startGame);
 addEventListener("keydown", (event) => {
   if (event.code == "Space" && gameStarted) {
     player.jump();
+    wingSound.play();
   }
 });
 
@@ -178,6 +184,7 @@ function animate() {
   player.update(ctx);
 
   if (player.isOver) {
+    hitSound.play();
     gameOver();
   }
 
@@ -186,6 +193,7 @@ function animate() {
       pipe.update(ctx);
 
       if (player.isColliding(pipe)) {
+        hitSound.play();
         gameOver();
       }
     });
@@ -199,6 +207,7 @@ function updateScore(pipe) {
     score++;
     pipe.isScored = true;
     scoreElement.innerHTML = score;
+    pointSound.play();
   }
 }
 
@@ -212,6 +221,12 @@ function updateHighScoreLabel() {
   }
 
   highScoreLabelElement.innerHTML = highScore;
+}
+
+function playWingSound() {
+  if (gameStarted) {
+    wingSound.play();
+  }
 }
 
 function appearNotPortraitUI() {

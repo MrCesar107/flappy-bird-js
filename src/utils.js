@@ -8,4 +8,15 @@ function loadImage(imagePath) {
   return image;
 }
 
-export { randomInRange, loadImage };
+function loadSound(soundPath) {
+  const sound = document.createElement("audio");
+  sound.src = soundPath;
+  sound.setAttribute("preload", "auto");
+  sound.setAttribute("controls", "none");
+  sound.style.display = "none";
+  document.body.appendChild(sound);
+
+  return sound;
+}
+
+export { randomInRange, loadImage, loadSound };
