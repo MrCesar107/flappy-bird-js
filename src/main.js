@@ -1,4 +1,4 @@
-import { randomInRange, loadImage, loadSound } from "./utils.js";
+import { randomInRange, loadImage } from "./utils.js";
 import Player from "./entities/player.js";
 import Pipe from "./entities/pipe.js";
 
@@ -14,9 +14,9 @@ const startGameButton = document.querySelector("#startGameBtn");
 const trophyElement = document.querySelector("#trophyEl");
 const restrictMessageElement = document.querySelector("#restrictMessageEl");
 const dataModalElement = document.querySelector("#dataModalEl");
-const pointSound = loadSound(document.querySelector("#pointSound").src);
-const wingSound = loadSound(document.querySelector("#wingSound").src);
-const hitSound = loadSound(document.querySelector("#hitSound").src);
+const pointSoundSrc = document.querySelector("#pointSound").src;
+const wingSoundSrc = document.querySelector("#wingSound").src;
+const hitSoundSrc = document.querySelector("#hitSound").src;
 
 let player;
 let pipes;
@@ -28,6 +28,7 @@ let backgroundOption;
 let drawBackgroundPositionX;
 var pipesInterval;
 var playerAnimation;
+var preload;
 
 resizeCanvas();
 ctx.beginPath();
@@ -69,6 +70,15 @@ addEventListener("keydown", (event) => {
   }
 });
 
+function startPreload() {
+  preload = new createjs.LoadQueue(true);
+  preload.installPlugin(createjs.Sound);
+  preload.addEventListener("fileload", handleComplete);
+  preload.loadFile(wingSoundSrc, "wingSound");
+  preload.loadFile(hitSoundSrc, "hitSound");
+  preload.loadFile(pointSoundSrc, "pointSound");
+}
+
 function isMobileBrowser() {
   const ua = navigator.userAgent;
   const isMobile = /Mobile|iP(hone|od|ad)|Android/.test(ua);
@@ -87,7 +97,15 @@ function resizeCanvas() {
   restartGame();
 }
 
+function handleComplete(event) {
+  createjs.Sound.registerSound(wingSoundSrc, "wingSound");
+  createjs.Sound.registerSound(hitSoundSrc, "hitSound");
+  createjs.Sound.registerSound(pointSoundSrc, "pointSound");
+}
+
 function init() {
+  startPreload();
+
   player = new Player(
     canvas.width / 2 - 32,
     canvas.height / 2 - 32,
