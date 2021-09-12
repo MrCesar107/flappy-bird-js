@@ -39,7 +39,7 @@ addEventListener("resize", () => {
   resizeCanvas();
 });
 
-addEventListener("touchstart", (event) => {
+canvas.addEventListener("touchstart", (event) => {
   event.preventDefault();
   player.jump();
   playWingSound();
@@ -54,7 +54,7 @@ if (isMobileBrowser()) {
     { passive: false }
   );
 } else {
-  addEventListener("click", (event) => {
+  canvas.addEventListener("click", (event) => {
     event.preventDefault();
     player.jump();
     playWingSound();
