@@ -17,6 +17,7 @@ const dataModalElement = document.querySelector("#dataModalEl");
 const pointSoundSrc = document.querySelector("#pointSound").src;
 const wingSoundSrc = document.querySelector("#wingSound").src;
 const hitSoundSrc = document.querySelector("#hitSound").src;
+const creditsElement = document.querySelector("#creditsEl");
 
 let player;
 let pipes;
@@ -261,7 +262,7 @@ function playWingSound() {
 
 function appearNotPortraitUI() {
   titleElement.classList.add("hidden");
-  modalElement.classList.remove("mt-64", "hidden");
+  modalElement.classList.remove("md:mt-64", "mt-44", "hidden");
   modalElement.classList.add("mt-16");
   restrictMessageElement.classList.remove("hidden");
 }
@@ -269,20 +270,19 @@ function appearNotPortraitUI() {
 function disappearNotPortraitUI() {
   titleElement.classList.remove("hidden");
   modalElement.classList.remove("mt-16");
-  modalElement.classList.add("mt-64");
+  modalElement.classList.add("md:mt-64", "mt-44");
   restrictMessageElement.classList.add("hidden");
   restrictMessageElement.classList.add("hidden");
 }
 
 function appearUI() {
   titleElement.classList.remove("hidden");
-  titleElement.classList.add("mt-36");
-  titleElement.innerHTML = "Flappy Bird";
   scoreElement.classList.add("hidden");
   dataModalElement.classList.remove("hidden");
   scoreLabelElement.innerHTML = "0";
   highScoreLabelElement.innerHTML = "0";
   modalElement.classList.remove("hidden");
+  creditsElement.classList.remove("hidden");
   showNoTrophy();
 }
 
@@ -290,6 +290,7 @@ function disappearUI() {
   titleElement.classList.add("hidden");
   modalElement.classList.add("hidden");
   dataModalElement.classList.add("hidden");
+  creditsElement.classList.add("hidden");
 }
 
 function appearGameOverUI() {
