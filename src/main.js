@@ -24,16 +24,14 @@ let animationId;
 let score;
 let highScore = 0;
 let gameStarted = false;
-let backgroundOption;
+let backgroundOption = randomInRange(1, 2);
 let drawBackgroundPositionX;
 var pipesInterval;
 var playerAnimation;
 var preload;
 
 resizeCanvas();
-ctx.beginPath();
-ctx.drawImage(spriteSheet, 0, 0, 144, 256, 0, 0, canvas.width, canvas.height);
-ctx.closePath();
+checkHighScore();
 
 addEventListener("resize", () => {
   resizeCanvas();
@@ -69,6 +67,15 @@ addEventListener("keydown", (event) => {
     wingSound.play();
   }
 });
+
+function checkHighScore() {
+  if (localStorage.getItem("highScoreFlappyBird")) {
+    highScore = localStorage.getItem("highScoreFlappyBird");
+    highScoreLabelElement.innerHTML = highScore;
+  } else {
+    highScoreLabelElement.innerHTML = 0;
+  }
+}
 
 function startPreload() {
   preload = new createjs.LoadQueue(true);
@@ -166,7 +173,7 @@ function calculatePipesHeight() {
 
 function clearCanvas() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawBackground(drawBackgroundPositionX);
+  generateBackground();
 }
 
 function generateBackground() {
@@ -236,9 +243,14 @@ function updateScoreLabel() {
 function updateHighScoreLabel() {
   if (score > highScore) {
     highScore = score;
+    saveHighScore();
   }
 
   highScoreLabelElement.innerHTML = highScore;
+}
+
+function saveHighScore() {
+  localStorage.setItem("highScoreFlappyBird", highScore);
 }
 
 function playWingSound() {
@@ -351,7 +363,6 @@ function restartGame() {
   player = null;
   pipes = null;
   score = null;
-  highScore = null;
   deleteIntervals();
 
   if (canvas.width > canvas.height && canvas.width < 1024) {
@@ -364,4 +375,6 @@ function restartGame() {
     disappearNotPortraitUI();
     appearUI();
   }
+
+  checkHighScore();
 }
