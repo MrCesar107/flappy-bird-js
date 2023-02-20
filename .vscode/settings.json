@@ -1,0 +1,10 @@
+{
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  },
+  "window.autoDetectColorScheme": true,
+  "workbench.preferredDarkColorTheme": "Outrun Electric",
+  "workbench.colorTheme": "Outrun Electric",
+  "workbench.preferredLightColorTheme": "Solarized Light",
+  "liveServer.settings.port": 5501,
+}

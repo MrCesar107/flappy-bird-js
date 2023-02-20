@@ -30,7 +30,6 @@ export default class Player {
     const frameHeight = 12;
 
     ctx.beginPath();
-    //ctx.clearRect(this.x, this.y, this.width, this.height);
     this.selectFrame(ctx, this.currentFrame, frameWidth, frameHeight);
     ctx.closePath();
   }
